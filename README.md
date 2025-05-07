@@ -113,7 +113,6 @@ Here’s an overview of the project structure:
 ```bash
 AI_CodeSolver/
 │
-<<<<<<< HEAD
 ├── app/ # Main application code
 │ ├── init.py
 │ ├── ui.py # UI code (Streamlit app)
@@ -125,25 +124,6 @@ AI_CodeSolver/
 ├── .env.example # Example .env file
 ├── .gitignore # Ignore sensitive files (e.g., .env)
 └── requirements.txt # List of Python dependencies
-=======
-├── core/ # AI models, agents, sandbox, execution
-│ ├── agent.py
-│ ├── execution.py
-│ ├── vision.py
-│ ├── sandbox.py
-│ └── utils.py
-│
-├── config/ # Environment config & constants
-│ ├── settings.py
-│ └── constants.py
-│
-├── .env # API keys (excluded from git)
-├── .gitignore # Ignore sensitive/compiled files
-├── requirements.txt # Python dependencies
-├── run.py # App entrypoint
-├── README.md # This file!
-└── LICENSE # MIT License
->>>>>>> 5f21d25088ba4f6db33f6e98fa5ace4b4a4a5737
 ```
 
 ## 🤩 **Contribute** 💬
@@ -164,39 +144,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-<<<<<<< HEAD
 ## 🎉 **Enjoy solving problems with AI CodeSolver!** 🌟
-=======
-## 🧪 Testing ⚙️
-**To run the tests and ensure everything is working correctly:**
-```bash
-pytest tests/
-```
->The tests will verify that the app is working as expected.
-
----
-
-## 🤝 **Contributing to AI_CodeSolver** 🌟
-
-🎉 **Contributions are more than welcome!**
-
-If you find a bug 🐞, have a feature request ✨, or want to improve the code 💻:
-
-- Open an [Issue](https://github.com/andredisa/AI_CodeSolver/issues)  
-- Submit a [Pull Request](https://github.com/andredisa/AI_CodeSolver/pulls) 🚀  
-
->💬 Feel free to reach out on [GitHub](https://github.com/andredisa) or by [email](mailto:andreadisanti22@gmail.com)!
-
-Let’s build this together!
-
----
-
-## 📜 License
-
-📄 This project is released under the **MIT License**.  
-Please refer to the [LICENSE](LICENSE) file for full details.
-
----
-
-### 🧑‍💻✨ Happy coding
->>>>>>> 5f21d25088ba4f6db33f6e98fa5ace4b4a4a5737
