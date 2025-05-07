@@ -56,13 +56,7 @@ AI_CodeSolver/
 │ ├── execution.py
 │ ├── vision.py
 │ ├── sandbox.py
-│ ├── schemas.py
 │ └── utils.py
-│
-├── tests/ # Pytest test cases
-│ ├── test_agents.py
-│ ├── test_execution.py
-│ └── test_utils.py
 │
 ├── config/ # Environment config & constants
 │ ├── settings.py
