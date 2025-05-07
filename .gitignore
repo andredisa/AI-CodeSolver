@@ -1,8 +1,32 @@
-*.pyc
-__pycache__/
+# File di configurazione sensibili
+.env            # Le chiavi API
+*.env           # Qualsiasi altro file .env
+
+# Cartelle di ambiente virtuale
+venv/            # Cartella per ambiente virtuale
+__pycache__/     # File compilati di Python
+*.pyc           # File Python compilati
+*.pyo           # File Python ottimizzati
+
+# Log e file temporanei
+*.log           # File di log
+*.tmp           # File temporanei
+*.swp           # File swap di editor (ad esempio vim)
+
+# Cartelle generate durante la build o compilazione
+build/
+dist/
+*.egg-info/
+
+# Dipendenze di sistema (esempio con Mac)
 .DS_Store
-temp_image.png
-tests/*
+Thumbs.db
+
+# Altri file temporanei o di sistema
+*.bak           # File di backup
+*.orig          # File originali prima della modifica
+
+# file __init_.py
+agents/__init__.py
 app/__init__.py
-config/__init__.py
-core/__init__.py
+utils/__init__.py

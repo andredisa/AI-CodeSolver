@@ -1,32 +1,35 @@
-# app/main.py
 import streamlit as st
-from core.agent import create_agents
-from core.execution import execute_code_with_agent
-from core.vision import process_image_with_gemini
-from core.sandbox import initialize_sandbox
 from PIL import Image
+from agents.factory import create_agents
+from agents.vision import process_image_with_gemini
+from agents.execution import execute_code_with_agent
+from utils.sandbox_utils import initialize_sandbox
+from utils.helpers import extract_code_from_response
+from app.ui import setup_sidebar, initialize_session_state
 
 def main():
-    st.title("AI-CodeSolver")
+    st.title("🧠 AI Code Solver")
 
-    # Initialize session state
     initialize_session_state()
-
-    # Sidebar setup for API keys
     setup_sidebar()
+
+    if not (st.session_state.openai_key and 
+            st.session_state.gemini_key and 
+            st.session_state.e2b_key):
+        st.warning("🔐 Inserisci tutte le chiavi API nella sidebar.")
+        return
 
     vision_agent, coding_agent, execution_agent = create_agents()
 
-    uploaded_image = st.file_uploader("Upload an image of your coding problem (optional)", type=["png", "jpg", "jpeg"])
-
+    uploaded_image = st.file_uploader("📷 Carica un'immagine del problema (opzionale)", type=['png', 'jpg', 'jpeg'])
     if uploaded_image:
-        st.image(uploaded_image, caption="Uploaded Image", use_container_width=True)
+        st.image(uploaded_image, caption="Immagine caricata", use_container_width=True)
 
-    user_query = st.text_area("Or type your coding problem here:", placeholder="Example: Write a function to find the sum of two numbers.")
+    user_query = st.text_area("✍️ Oppure scrivi il problema qui:", height=100)
 
-    if st.button("Generate & Execute Solution"):
+    if st.button("✅ Genera ed Esegui"):
         if uploaded_image and not user_query:
-            with st.spinner("Processing image..."):
+            with st.spinner("Estrazione dal contenuto dell'immagine..."):
                 image = Image.open(uploaded_image)
                 extracted_query = process_image_with_gemini(vision_agent, image)
 
@@ -34,40 +37,36 @@ def main():
                     st.error(extracted_query)
                     return
 
-                st.info("📝 Extracted Problem:")
+                st.info("📝 Problema Estratto:")
                 st.write(extracted_query)
 
-                with st.spinner("Generating solution..."):
+                with st.spinner("Generazione soluzione..."):
                     response = coding_agent.run(extracted_query)
 
         elif user_query and not uploaded_image:
-            with st.spinner("Generating solution..."):
+            with st.spinner("Generazione soluzione..."):
                 response = coding_agent.run(user_query)
 
         elif user_query and uploaded_image:
-            st.error("Please use either image upload OR text input, not both.")
+            st.error("⚠️ Usa solo testo OPPURE immagine, non entrambi.")
             return
         else:
-            st.warning("Please provide either an image or text description of your coding problem.")
+            st.warning("📩 Fornisci un'immagine o un problema testuale.")
             return
 
         if 'response' in locals():
-            st.divider()
-            st.subheader("💻 Solution")
+            st.subheader("💻 Soluzione Generata")
+            code = extract_code_from_response(response.content)
+            st.code(code, language="python")
 
-            code_blocks = response.content.split("```python")
-            if len(code_blocks) > 1:
-                code = code_blocks[1].split("```")[0].strip()
-
-                st.code(code, language="python")
-
-                with st.spinner("Executing code..."):
-                    initialize_sandbox()
-                    if st.session_state.sandbox:
-                        execution_results = execute_code_with_agent(execution_agent, code, st.session_state.sandbox)
-                        st.divider()
-                        st.subheader("🚀 Execution Results")
-                        st.markdown(execution_results)
+            initialize_sandbox()
+            if st.session_state.sandbox:
+                with st.spinner("Esecuzione del codice..."):
+                    execution_results = execute_code_with_agent(
+                        execution_agent, code, st.session_state.sandbox
+                    )
+                st.subheader("🚀 Risultati Esecuzione")
+                st.markdown(execution_results)
 
 if __name__ == "__main__":
     main()
