@@ -1,0 +1,8 @@
+*.pyc
+__pycache__/
+.DS_Store
+temp_image.png
+tests/*
+app/__init__.py
+config/__init__.py
+core/__init__.py
